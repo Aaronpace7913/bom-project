@@ -1,0 +1,25 @@
+{
+  "name": "bom-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+    "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aaronpace7913/bom-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aaronpace7913/bom-project/issues"
+  },
+  "homepage": "https://github.com/Aaronpace7913/bom-project#readme",
+  "devDependencies": {
+    "vite": "^7.2.6"
+  }
+}
