@@ -1,0 +1,225 @@
+.journal-container {
+  padding: 1.5rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.journal-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-top: 4px solid #1e3a8a;
+}
+
+.journal-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.journal-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #eff6ff;
+  border-radius: 0.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #bfdbfe;
+  border-radius: 0.5rem;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.filter-group-btn {
+  display: flex;
+  align-items: flex-end;
+}
+
+.favorites-btn {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.favorites-btn:hover {
+  background-color: #d1d5db;
+}
+
+.favorites-btn-active {
+  background-color: #eab308;
+  color: white;
+}
+
+.favorites-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.favorites-icon-filled {
+  fill: white;
+}
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: #6b7280;
+  padding: 3rem;
+}
+
+.book-section {
+  border: 2px solid #bfdbfe;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.book-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.book-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.note-card {
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #3b82f6;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.note-title {
+  font-weight: bold;
+  font-size: 1.125rem;
+  color: #1e3a8a;
+}
+
+.note-date {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.note-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #eab308;
+  transition: color 0.2s;
+}
+
+.favorite-btn:hover {
+  color: #ca8a04;
+}
+
+.favorite-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.favorite-icon-filled {
+  fill: #eab308;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ef4444;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.delete-btn:hover {
+  color: #dc2626;
+}
+
+.note-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.note-topic {
+  padding: 0.25rem 0.5rem;
+  background-color: #dbeafe;
+  color: #1e3a8a;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.note-text {
+  color: #1f2937;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+  .journal-filters {
+    grid-template-columns: 1fr;
+  }
+}
