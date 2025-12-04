@@ -23,8 +23,12 @@
     "vite": "^7.2.6"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
     "lucide-react": "^0.555.0",
     "mongodb": "^7.0.0",
+    "mongoose": "^9.0.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.10.0"
