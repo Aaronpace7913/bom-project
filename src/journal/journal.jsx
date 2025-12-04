@@ -25,12 +25,14 @@ export default function Journal({ notes, setNotes }) {
   const [selectedTopic, setSelectedTopic] = useState('all');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-  const toggleFavorite = async (noteId) => {
+const toggleFavorite = async (noteId) => {
     try {
       const updatedNotes = notes.map(note =>
         note.id === noteId ? { ...note, isFavorite: !note.isFavorite } : note
       );
-      await window.storage.set('bom-notes', JSON.stringify(updatedNotes));
+      
+      // Use localStorage directly since window.storage is not available
+      localStorage.setItem('bom-notes', JSON.stringify(updatedNotes));
       setNotes(updatedNotes);
     } catch (error) {
       console.error('Error toggling favorite:', error);
@@ -41,7 +43,9 @@ export default function Journal({ notes, setNotes }) {
     if (window.confirm('Are you sure you want to delete this note?')) {
       try {
         const updatedNotes = notes.filter(note => note.id !== noteId);
-        await window.storage.set('bom-notes', JSON.stringify(updatedNotes));
+        
+        // Use localStorage directly since window.storage is not available
+        localStorage.setItem('bom-notes', JSON.stringify(updatedNotes));
         setNotes(updatedNotes);
       } catch (error) {
         console.error('Error deleting note:', error);
@@ -130,7 +134,7 @@ export default function Journal({ notes, setNotes }) {
                         <div className="note-header">
                           <div>
                             <h4 className="note-title">
-                              {note.book} {note.chapter}
+                              {note.book} {note.chapterRange || note.chapter}
                             </h4>
                             <p className="note-date">{note.date}</p>
                           </div>

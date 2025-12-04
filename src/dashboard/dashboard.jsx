@@ -30,33 +30,46 @@ export default function Dashboard({ notes, setNotes }) {
   const [currentNote, setCurrentNote] = useState({
     book: '1 Nephi',
     chapter: '1',
+    endChapter: '',
     text: '',
     topics: [],
     date: new Date().toISOString().split('T')[0]
   });
   const [newTopic, setNewTopic] = useState('');
+  const [isRangeMode, setIsRangeMode] = useState(false);
 
-  const handleSaveNote = async () => {
+const handleSaveNote = async () => {
     if (!currentNote.text.trim()) {
       alert('Please write a note before saving');
       return;
     }
 
     const noteId = `note_${Date.now()}`;
-    const noteToSave = { ...currentNote, id: noteId, isFavorite: false };
+    const noteToSave = { 
+      ...currentNote, 
+      id: noteId, 
+      isFavorite: false,
+      chapterRange: isRangeMode && currentNote.endChapter ? 
+        `${currentNote.chapter}-${currentNote.endChapter}` : 
+        currentNote.chapter
+    };
     
     try {
       const updatedNotes = [...notes, noteToSave];
-      await window.storage.set('bom-notes', JSON.stringify(updatedNotes));
+      
+      // Use localStorage directly since window.storage is not available
+      localStorage.setItem('bom-notes', JSON.stringify(updatedNotes));
       setNotes(updatedNotes);
       
       setCurrentNote({
         book: '1 Nephi',
         chapter: '1',
+        endChapter: '',
         text: '',
         topics: [],
         date: new Date().toISOString().split('T')[0]
       });
+      setIsRangeMode(false);
       
       alert('Note saved successfully!');
     } catch (error) {
@@ -85,6 +98,8 @@ export default function Dashboard({ notes, setNotes }) {
     }
   };
 
+  const maxChapter = BOM_BOOKS.find(b => b.name === currentNote.book)?.chapters || 1;
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-card">
@@ -104,19 +119,69 @@ export default function Dashboard({ notes, setNotes }) {
             />
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Book</label>
-              <select
-                value={currentNote.book}
-                onChange={(e) => setCurrentNote({ ...currentNote, book: e.target.value, chapter: '1' })}
-                className="form-select"
-              >
-                {BOM_BOOKS.map(book => (
-                  <option key={book.name} value={book.name}>{book.name}</option>
-                ))}
-              </select>
+          <div className="form-group">
+            <label className="form-label">Book</label>
+            <select
+              value={currentNote.book}
+              onChange={(e) => setCurrentNote({ ...currentNote, book: e.target.value, chapter: '1', endChapter: '' })}
+              className="form-select"
+            >
+              {BOM_BOOKS.map(book => (
+                <option key={book.name} value={book.name}>{book.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <div className="chapter-mode-toggle">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={isRangeMode}
+                  onChange={(e) => {
+                    setIsRangeMode(e.target.checked);
+                    if (!e.target.checked) {
+                      setCurrentNote({ ...currentNote, endChapter: '' });
+                    }
+                  }}
+                  className="checkbox-input"
+                />
+                <span>I read multiple chapters</span>
+              </label>
             </div>
+          </div>
+
+          {isRangeMode ? (
+            <div className="form-row">
+              <div className="form-group">
+                <label className="form-label">Starting Chapter</label>
+                <select
+                  value={currentNote.chapter}
+                  onChange={(e) => setCurrentNote({ ...currentNote, chapter: e.target.value })}
+                  className="form-select"
+                >
+                  {Array.from({ length: maxChapter }, (_, i) => i + 1).map(ch => (
+                    <option key={ch} value={ch}>{ch}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Ending Chapter</label>
+                <select
+                  value={currentNote.endChapter}
+                  onChange={(e) => setCurrentNote({ ...currentNote, endChapter: e.target.value })}
+                  className="form-select"
+                >
+                  <option value="">Select end chapter</option>
+                  {Array.from({ length: maxChapter }, (_, i) => i + 1)
+                    .filter(ch => ch >= parseInt(currentNote.chapter))
+                    .map(ch => (
+                      <option key={ch} value={ch}>{ch}</option>
+                    ))}
+                </select>
+              </div>
+            </div>
+          ) : (
             <div className="form-group">
               <label className="form-label">Chapter</label>
               <select
@@ -124,12 +189,12 @@ export default function Dashboard({ notes, setNotes }) {
                 onChange={(e) => setCurrentNote({ ...currentNote, chapter: e.target.value })}
                 className="form-select"
               >
-                {Array.from({ length: BOM_BOOKS.find(b => b.name === currentNote.book)?.chapters || 1 }, (_, i) => i + 1).map(ch => (
+                {Array.from({ length: maxChapter }, (_, i) => i + 1).map(ch => (
                   <option key={ch} value={ch}>{ch}</option>
                 ))}
               </select>
             </div>
-          </div>
+          )}
 
           <div className="form-group">
             <label className="form-label">

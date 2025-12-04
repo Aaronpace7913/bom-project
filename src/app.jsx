@@ -17,11 +17,22 @@ function AppContent() {
 
   const loadData = async () => {
     try {
-      const notesResult = await window.storage.get('bom-notes');
-      if (notesResult) {
-        const loadedNotes = JSON.parse(notesResult.value);
-        setNotes(loadedNotes);
+      // Try window.storage first, fallback to localStorage
+      let loadedNotes = [];
+      
+      if (window.storage && typeof window.storage.get === 'function') {
+        const notesResult = await window.storage.get('bom-notes');
+        if (notesResult) {
+          loadedNotes = JSON.parse(notesResult.value);
+        }
+      } else {
+        const storedNotes = localStorage.getItem('bom-notes');
+        if (storedNotes) {
+          loadedNotes = JSON.parse(storedNotes);
+        }
       }
+      
+      setNotes(loadedNotes);
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
